@@ -243,7 +243,7 @@ last-dotplot --lengths1 --lengths2 -y myalns.maf dotplot.png
 this should give you a figure like this if you used EHEC.fasta
 
 <img
-src="https://github.com/recursive-deletion/EHEC_genome/blob/master/figures/dotplot2.png" style="width:60%" />
+src="https://github.com/recursive-deletion/EHEC_genome/blob/master/figures/dotplot2.png" style="width:50%" />
 
 or this if you used final_contigs.fa
 
@@ -253,4 +253,10 @@ src="https://github.com/recursive-deletion/EHEC_genome/blob/master/figures/dotpl
 
 ### Future directions
 
-The paper had more detailed information on genomic features, mostly ORFs and prophage related stuff, as well as a nice codon usage table. The best way to approach this would probably involve some programming in python or perl. 
+The paper had more detailed information on genomic features, mostly ORFs and prophage related stuff, as well as a nice codon usage table. The best way to approach this would probably involve some programming in python or perl.
+
+
+[0]:https://oup.silverchair-cdn.com/oup/backfile/Content_public/Journal/dnaresearch/8/1/10.1093_dnares_8.1.11/3/dnares_8_1_11.pdf?Expires=1509649205&Signature=Vbc9g22UA95lDR6HCiIN2EYy8k~DyvuJwbWJ4UI8swOaJwA~heS2Y20ti24RKqocf0V3Ziv1cP~5Baz0Q5oktT~mcs4TOz6GbiI-1gA97SpCBmPRW0GA8BM9pWarMRqTBt~jIMzeW-Dyiqe7c8UKy~xh~Q5qqmQvpE261SyoHvkKUVASh99rVDTcBeEwjHdeFLVBNSVVnplFQsfbZGUiNqBL2BMfAS5jZFiTnQ712F0NC~CzNHcJUmoKkInBY4LUxHXEUrZ0AUbB6RO9wF47BC4Nitb7ENPVVtP8u~4CuiU3BvBu~O9cblKTP2lCWU4~Ck-Bxnm7BIuGwXHa1q4PdQ__&Key-Pair-Id=APKAIUCZBIA4LVPAVW3Q
+[1]:https://github.com/recursive-deletion/EHEC_genome/tree/master/QC_Analysis
+[2]:http://www.sanger.ac.uk/science/tools/artemis
+[3]:http://phaster.ca/

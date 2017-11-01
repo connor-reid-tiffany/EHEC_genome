@@ -51,7 +51,7 @@ open SRR4301589_2_fastqc.html
 ```
 Looking at the readout, I could see per base quality was low and adapters were present, specifically Nextera transposase sequences
 
-[placeholder for QC score images]
+
 `spoiler alert`: It seems there are some Nextera Transposase Adapters contaminating our sequences, but there is no mention of which sequences were used in this experiment on the SRA....so we need to figure out what the adapter sequences are, trim them, and then reassess the quality of our reads.
 
 ### Step 3: Trim adapters and bad stuff
@@ -243,7 +243,7 @@ last-dotplot --lengths1 --lengths2 -y myalns.maf dotplot.png
 this should give you a figure like this if you used EHEC.fasta
 
 <img
-src="https://github.com/recursive-deletion/EHEC_genome/blob/master/figures/dotplot2.png" style="width:50%" />
+src="https://github.com/recursive-deletion/EHEC_genome/blob/master/figures/dotplot2.png" style="width:30%" />
 
 or this if you used final_contigs.fa
 

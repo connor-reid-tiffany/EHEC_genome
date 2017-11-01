@@ -193,4 +193,64 @@ Here I go from using mostly command line tools to mostly GUI tools in the intere
 
 First I used [Artemis][2] to visualize the genome. By itself and comparatively with the ecoli_k12 genome (using GFF and GBK files respectively)
 
-<img src="https://github.com/dib-lab/sourmash/blob/master/doc/_static/cmp.matrix.png?raw=true" style="width:60%" />
+<img src="https://github.com/recursive-deletion/EHEC_genome/blob/master/figures/EHEC_circular_fig.png" style="width:60%" />
+
+Then, I viewed the EHEC genome alongside the ecoli_k12 genome. You can see the sequence difference is about 700Kb, why is that? (hint, its the prophage DNA!)
+
+<img src="https://github.com/recursive-deletion/EHEC_genome/blob/master/figures/EHEC_vs_K12.png" style="width:60%" />
+
+Speaking of prophage DNA, I wanted to get a closer look at where my potential phage sequences were on the genome. Fortunately theres a web application called [PHASTER][3] that does a decent job.
+
+<img
+src="https://github.com/recursive-deletion/EHEC_genome/blob/master/figures/circularview_prophage.png" style="width:60%" />
+
+### Using LAST to do multiple genome alignments
+
+To create a visual showing overall conservation between EHEC and K12, I used a command line tool called LAST to generate an alignment and a subsequent dotplot. (A more practical use of this program would probably be to align concatenated protein files for tree building)
+
+unfortunately, compiling it using clang left me with a broken tool, so I had to make a virtual environment using anaconda, and then install and compile LAST in there along with all the dependencies.
+
+```
+conda create last_stuff
+source activate last_stuff
+
+conda install last
+```
+
+I then did alignments using the final.contigs.fa and a EHEC.fasta file I created to the ecoli_k12 genome FASTA file
+
+Create an EHEC.fasta file
+```
+grep -v "^>" myecoli.fna | awk 'BEGIN { ORS=""; print ">Sequence_name\n" } { print }' > EHEC.fasta
+```
+Perform the alignments
+
+```
+cd
+mkdir last_alignments
+lastdb -cR01 EHEC_db_2 EHEC.fasta
+
+lastal EHEC_db_2 ~/ecoli_k12.fasta > myalns.maf
+```
+in the first step, i made a new directory and then made my EHEC database for the alignments, then suqsequently aligned the ecoli_k12 genome to them.
+
+Then take the .maf file and create some dotplots
+
+```
+last-dotplot --lengths1 --lengths2 -y myalns.maf dotplot.png
+```
+
+this should give you a figure like this if you used EHEC.fasta
+
+<img
+src="https://github.com/recursive-deletion/EHEC_genome/blob/master/figures/dotplot2.png" style="width:60%" />
+
+or this if you used final_contigs.fa
+
+<img
+src="https://github.com/recursive-deletion/EHEC_genome/blob/master/figures/dotplot.png" style="width:60%" />
+
+
+### Future directions
+
+The paper had more detailed information on genomic features, mostly ORFs and prophage related stuff, as well as a nice codon usage table. The best way to approach this would probably involve some programming in python or perl. 

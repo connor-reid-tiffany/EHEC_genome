@@ -1,0 +1,11 @@
+PASS	Basic Statistics	SRR4301589_2_val_2.fq
+PASS	Per base sequence quality	SRR4301589_2_val_2.fq
+PASS	Per sequence quality scores	SRR4301589_2_val_2.fq
+FAIL	Per base sequence content	SRR4301589_2_val_2.fq
+WARN	Per sequence GC content	SRR4301589_2_val_2.fq
+PASS	Per base N content	SRR4301589_2_val_2.fq
+WARN	Sequence Length Distribution	SRR4301589_2_val_2.fq
+PASS	Sequence Duplication Levels	SRR4301589_2_val_2.fq
+PASS	Overrepresented sequences	SRR4301589_2_val_2.fq
+PASS	Adapter Content	SRR4301589_2_val_2.fq
+WARN	Kmer Content	SRR4301589_2_val_2.fq

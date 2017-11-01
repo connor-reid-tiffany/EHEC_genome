@@ -24,7 +24,7 @@ export PATH=$PATH:$PWD/sratoolkit.2.8.2-1-mac64/bin
 
 Now that the toolkit is installed, we can download and split our raw reads using the appropriate accession number and the `fastq-dump` command with the split files flag
 
-First make a new directory from your home directory (being organized is nice =)
+First make a new directory from your home directory:
 
 ```
 mkdir EHEC_genome
@@ -37,7 +37,7 @@ check to make sure the files are there using `ls`
 
 ### Step 2, Assess the quality of your reads
 
-Note: I had trouble figuring out how to run FastQC from any directory, and was unable to custom set a path (maybe cause its java?), so I just ran the fastqc function from inside the FastQC folder and used the full path for my files in the arguments (clunky, I know)
+Note: I had trouble figuring out how to run FastQC from any directory, and was unable to custom set a path (probably security junk since i did this on an MMI machine), so I just ran the fastqc function from inside the FastQC folder and used the full path for my files in the arguments (clunky, I know)
 ```
 ./fastqc ~/EHEC_genome/seqs/SRR4301589_1.fastq ~/EHEC_genome/seqs/SRR4301589_2
 ```
@@ -49,8 +49,7 @@ open SRR4301589_1_fastqc.html
 open SRR4301589_2_fastqc.html
 
 ```
-Looking at the readout, I could see per base quality was low and adapters were present, specifically Nextera transposase sequences (I've never trimmed these before, in fact i have seldom trimmed adapters in general because many companies offer it now as sort of free of charge service, so this was a good learning experience!)
-
+Looking at the readout, I could see per base quality was low and adapters were present, specifically Nextera transposase sequences
 
 [placeholder for QC score images]
 `spoiler alert`: It seems there are some Nextera Transposase Adapters contaminating our sequences, but there is no mention of which sequences were used in this experiment on the SRA....so we need to figure out what the adapter sequences are, trim them, and then reassess the quality of our reads.
@@ -68,11 +67,14 @@ TrimmomaticPE SRR1976948_1.fastq.gz \
 ```
 Trimmomatic didn't actually trim any adapters (or sequence for that matter). So lets try another QC trimmer!
 
-Here, I use a cutadapt, along with wrapper trim_galore, and use the --paired flag (we have paired end read! but maybe neglect to tell the students which flag to use?) and the nextera flag (because we have nextera adapter contamination, again maybe let them figure this out on their own =])
+Here, I use a cutadapt, along with the wrapper trim_galore, and use the --paired flag (we have paired end read! but maybe neglect to tell the students which flag to use?) and the nextera flag (because we have nextera adapter contamination, again maybe let them figure this out on their own =])
+
 
 ```
-./trim_galore --paired --nextera SRR4301589_1.fastq SRR4301589_2.fastq
+./trim_galore --paired --nextera --quality 25 --length 150 -o EHEC_genome/phred_25_threshold_150min/  SRR4301589_1.fastq SRR4301589_2.fastq
+
 ```
+
 it worked! you can now see that the nextera transposase sequences are no longer there after re running fastqc on the trimmed files.
 
 ```
@@ -81,8 +83,8 @@ it worked! you can now see that the nextera transposase sequences are no longer 
 open SRR4301589_1_val_1_fastqc.html
 open SRR4301589_2_val_2_fastqc.html
 ```
-[placeholder for QC images]
 
+you can find the QC figures [here][1]
 ### Step 4: Assemble the genome
 
 For Assembly, I decided to go with Megahit because word on the street was that it was a great assembler for Illumina reads if computational power is limited, and both of those criteria apply here!
@@ -138,13 +140,6 @@ Upon consulting with the lovely article linked in the ANGUS trimming tutorial, I
 Okay so doing assemblies at <25 and <4 gave comparable results to <20, and on the SRA it says the genome they got was 5.3 MB (same as mine), so assembly is as good as it gets. heres the trim code and the quast readout from the assembly
 
 
-
-```
-./trim_galore --paired --nextera --quality 25 --length 150 -o EHEC_genome/phred_25_threshold_150min/  SRR4301589_1.fastq SRR4301589_2.fastq
-
-```
-
-
 ```
 megahit -1 SRR4301589_1_val_1.fq  -2 SRR4301589_2_val_2.fq  -m 0.75  -t 3  -o megahit_result
 
@@ -178,15 +173,24 @@ L75                         34
 # N's per 100 kbp           0.00
 ```
 ### Annotate with prokka
-first inside of the EHEC_genome directory
+First inside of the EHEC_genome directory, make a new directory for the annotation data, then link this directory to the directory with the assembly.
 
 ```
-mkdir phred_150_qc25_annotation/
-cd phred_150_qc25_annotation/
-ln -fs ~/EHEC_genome/phred_25_threshold_150min/megahit_result/final.contigs.fa
+mkdir EHEC_Annotation/
+cd EHEC_Annotation/
+ln -fs ~/EHEC_genome/EHEC_Annotation/megahit_result/final.contigs.fa
 ```
 
-
+Now run prokka on the assembled contigs
 ```
 prokka final.contigs.fa --outdir prokka_annotation --prefix myecoli
 ```
+You should get several output files. Now the genome is annotated! The next step is to  take these output files and start doing cool things like genome visualization and prophage visualization.
+
+### Visualizing the genome
+
+Here I go from using mostly command line tools to mostly GUI tools in the interest of time and sanity (Circos is cool but the learning curve is painful).
+
+First I used [Artemis][2] to visualize the genome. By itself and comparatively with the ecoli_k12 genome (using GFF and GBK files respectively)
+
+<img src="https://github.com/dib-lab/sourmash/blob/master/doc/_static/cmp.matrix.png?raw=true" style="width:60%" />

@@ -67,7 +67,7 @@ TrimmomaticPE SRR1976948_1.fastq.gz \
 ```
 Trimmomatic didn't actually trim any adapters (or sequence for that matter). So lets try another QC trimmer!
 
-Here, I use a cutadapt, along with the wrapper trim_galore, and use the --paired flag (we have paired end read! but maybe neglect to tell the students which flag to use?) and the nextera flag (because we have nextera adapter contamination, again maybe let them figure this out on their own =])
+Here, I use a cutadapt, along with the wrapper trim_galore, and use the --paired flag (because they are paired end reads!) and the --nextera flag (because from the QC analysis showed the adapter contamination is from nextera transposase sequences)
 
 
 ```

@@ -67,7 +67,7 @@ TrimmomaticPE SRR1976948_1.fastq.gz \
 ```
 Trimmomatic didn't actually trim any adapters (or sequence for that matter). So lets try another QC trimmer!
 
-Here, I use a cutadapt, along with the wrapper trim_galore, and use the --paired flag (because they are paired end reads!) and the --nextera flag (because from the QC analysis showed the adapter contamination is from nextera transposase sequences)
+Here, I use a cutadapt, along with the wrapper trim_galore, and use the --paired flag (because they are paired end reads!) and the --nextera flag (because from the QC analysis showed the adapter contamination is from nextera transposase sequences). I used --quality 25 since lower phred thresholds have only been shown to be beneficial in Transcriptome assembly, and a minimum length of 150 since the reads are of length 300, and too short of a read length threshold could lead to junk sequences in the assembly.
 
 
 ```

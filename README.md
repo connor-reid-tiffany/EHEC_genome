@@ -67,8 +67,9 @@ TrimmomaticPE SRR1976948_1.fastq.gz \
 ```
 Trimmomatic didn't actually trim any adapters (or sequence for that matter). So lets try another QC trimmer!
 
-Here, I use a cutadapt, along with the wrapper trim_galore, and use the --paired flag (because they are paired end reads!) and the --nextera flag (because from the QC analysis showed the adapter contamination is from nextera transposase sequences). I used --quality 25 since lower phred thresholds have only been shown to be beneficial in Transcriptome assembly, and a minimum length of 150 since the reads are of length 300, and too short of a read length threshold could lead to junk sequences in the assembly.
+Here, I use a `cutadapt`, along with the wrapper `trim_galore`, and use the `--paired flag` (because they are paired end reads!) and the `--nextera flag` (because from the QC analysis showed the adapter contamination is from nextera transposase sequences). I used `--quality 25` since lower phred thresholds have only been shown to be beneficial in Transcriptome assembly, and `--length 150` since the reads are of length 300, and too short of a read length threshold could lead to junk sequences in the assembly.
 
+You can find the docs for cutadapt [here][4], and for trim_galore [here][5]
 
 ```
 ./trim_galore --paired --nextera --quality 25 --length 150 -o EHEC_genome/phred_25_threshold_150min/  SRR4301589_1.fastq SRR4301589_2.fastq
@@ -206,7 +207,7 @@ src="https://github.com/recursive-deletion/EHEC_genome/blob/master/figures/circu
 
 ### Using LAST to do multiple genome alignments
 
-To create a visual showing overall conservation between EHEC and K12, I used a command line tool called LAST to generate an alignment and a subsequent dotplot. (A more practical use of this program would probably be to align concatenated protein files for tree building)
+To create a visual showing overall conservation between EHEC and K12, I used a command line tool called [LAST][6] to generate an alignment and a subsequent dotplot. (A more practical use of this program would probably be to align concatenated protein files for tree building)
 
 unfortunately, compiling it using clang left me with a broken tool, so I had to make a virtual environment using anaconda, and then install and compile LAST in there along with all the dependencies.
 
@@ -260,3 +261,6 @@ The paper had more detailed information on genomic features, mostly ORFs and pro
 [1]:https://github.com/recursive-deletion/EHEC_genome/tree/master/QC_Analysis
 [2]:http://www.sanger.ac.uk/science/tools/artemis
 [3]:http://phaster.ca/
+[4]:http://cutadapt.readthedocs.io/en/stable/guide.html
+[5]:https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/
+[6]:http://last.cbrc.jp/doc/last-tutorial.html
